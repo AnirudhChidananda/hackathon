@@ -12,7 +12,7 @@ const TerminalOverlay = () => {
         </div>
 
         <p className="text-sm text-foreground mb-2 tracking-tight">
-          <span className="text-primary">/</span> WORKOUT ANALYSIS COMPLETE
+          <span className="text-primary">/</span> Habit Streamlined
         </p>
 
         <div className="space-y-1.5 text-xs text-muted-foreground">

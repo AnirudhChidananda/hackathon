@@ -1,25 +1,8 @@
-import { SignInButton, SignOutButton, SignedIn, SignedOut } from "@clerk/nextjs";
-
-// export default function Home() {
-//   return (
-//     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-//       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-//         <SignedOut>
-//           <SignInButton />
-//         </SignedOut>
-//         <SignedIn>
-//           <div className="cursor-pointer">
-//             <SignOutButton />
-//           </div>
-//         </SignedIn>
-//       </main>
-//     </div>
-//   );
-// }
-
 import TerminalOverlay from "@/components/TerminalOverlay";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
+import { TextHoverEffect } from "@/components/ui/hover";
+
 // import UserPrograms from "@/components/UserPrograms";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
@@ -47,6 +30,18 @@ const HomePage = () => {
         </div>
         <Prism animationType="rotate" timeScale={0.5} height={3.5} baseWidth={5.5} scale={3.6} hueShift={0} colorFrequency={1} noise={0.5} glow={1} />
       </div>
+      <div className="h-100 flex items-center justify-center mt-4">
+        <TextHoverEffect text="RISE" />
+      </div>
+      <div className="flex flex-col items-center justify-center max-w-5xl mx-auto py-6 px-4 mb-4">
+        <div className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight">
+          <div className="flex flex-col items-center justify-center text-center gap-4">
+            <div className="text-primary"> Rise from yesterday’s ashes.</div>
+            <div className="text-foreground text-xl md:text-2xl lg:text-3xl">Transform your habits, transform your life.</div>
+            <div className="text-primary">With RISE, every day is a chance for renewal and growth.</div>
+          </div>
+        </div>
+      </div>
       <div className="w-full h-full p-8">
         <WistiaPlayer mediaId="kd9jlo7hzi" />;
       </div>
@@ -55,15 +50,33 @@ const HomePage = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative">
               {/* CORNER DECARATION */}
-              <div className="absolute -top-10 left-0 w-40 h-40 border-l-2 border-t-2" />
 
               {/* LEFT SIDE CONTENT */}
+
               <div className="lg:col-span-7 space-y-8 relative">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+                  <div>
+                    <span className="text-foreground">Personalised</span>
+                  </div>
+                  <div>
+                    <span className="text-primary">Wellness Assistant</span>
+                  </div>
+                  <div className="pt-2">
+                    <span className="text-foreground">With Advanced</span>
+                  </div>
+                  <div className="pt-2">
+                    <span className="text-foreground">AI</span>
+                    <span className="text-primary"> Technology</span>
+                  </div>
+                </h1>
                 {/* SEPERATOR LINE */}
-                <div className="h-px w-full bg-linear-to-r from-primary via-secondary to-primary opacity-50"></div>
+                <div className="h-px w-full bg-linear-to-r from-primary via-secondary to-primary opacity-50">
+                  Every habit completed is another feather in your phoenix’s wing
+                </div>
 
                 <p className="text-xl text-muted-foreground w-2/3">
-                  Talk to our AI assistant and get personalized diet plans and workout routines designed just for you
+                  Track recurring habits with flexible scheduling, so your growth isn’t limited by rigid plans. Whether it’s daily routines, weekly
+                  goals, or custom streaks, RISE adapts to your unique rhythm
                 </p>
 
                 {/* STATS */}
@@ -73,10 +86,10 @@ const HomePage = () => {
                     <div className="text-xs uppercase tracking-wider">ACTIVE USERS</div>
                   </div>
                   <div className="h-12 w-px bg-linear-to-b from-transparent via-border to-transparent"></div>
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <div className="text-2xl text-primary">3min</div>
                     <div className="text-xs uppercase tracking-wider">GENERATION</div>
-                  </div>
+                  </div> */}
                   <div className="h-12 w-px bg-linear-to-b from-transparent via-border to-transparent"></div>
                   <div className="flex flex-col">
                     <div className="text-2xl text-primary">100%</div>
@@ -88,7 +101,7 @@ const HomePage = () => {
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   <Button size="lg" asChild className="overflow-hidden bg-primary text-primary-foreground px-8 py-6 text-lg font-medium">
                     <Link href={"/dashboard"} className="flex items-center font-mono">
-                      Build Your Program
+                      Get Started
                       <ArrowRightIcon className="ml-2 size-5" />
                     </Link>
                   </Button>
@@ -108,7 +121,7 @@ const HomePage = () => {
                 {/* IMAGE CONTANINER */}
                 <div className="relative aspect-square max-w-lg mx-auto">
                   <div className="relative overflow-hidden rounded-lg bg-cyber-black">
-                    <img src="/assistant.png" alt="AI Fitness Coach" className="size-full object-cover object-center" />
+                    <img src="/h1.png" alt="AI Fitness Coach" className="size-full object-cover object-center" />
 
                     {/* SCAN LINE */}
                     <div className="absolute inset-0 bg-[linear-gradient(transparent_0%,transparent_calc(50%-1px),var(--cyber-glow-primary)_50%,transparent_calc(50%+1px),transparent_100%)] bg-[length:100%_8px] animate-scanline pointer-events-none" />
@@ -130,6 +143,11 @@ const HomePage = () => {
                   {/* TERMINAL OVERLAY */}
                   <TerminalOverlay />
                 </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-center py-10 mt-4">
+              <div className="relative overflow-hidden  bg-cyber-black max-w-2xl mx-auto py-4 rounded-full ">
+                <img src="/h3.png" alt="AI Fitness Coach" className="size-full object-cover object-center" />
               </div>
             </div>
           </div>
