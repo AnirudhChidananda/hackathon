@@ -167,19 +167,19 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <div className="flex flex-row justify-between w-full items-center gap-2">
+                <div className="flex flex-row  w-full items-center gap-2">
                   <div>
                     <span>Today's Habits</span>
                     <Badge variant="secondary">{completionRate}% Complete</Badge>
                     <div className="flex flex-col gap-4 items-center justify-center"></div>
                   </div>
-                  <button
+                  {/* <button
                     onClick={() => setShowAddHabitModal(true)}
                     className="bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
                   >
                     <Plus className="w-5 h-5" />
                     ADD NEW HABITS
-                  </button>
+                  </button> */}
                 </div>
               </CardTitle>
               <CardDescription>Check off your habits as you complete them throughout the day</CardDescription>
