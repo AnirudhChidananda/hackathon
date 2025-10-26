@@ -4,14 +4,12 @@ import AIHabitsPage from "./AI-habits";
 import AIMeditationPage from "./AI-meditation";
 import AIMotivationPage from "./AImotivation";
 import { Tabs, TabsContent, TabsContents, TabsList, TabsTrigger } from "@/components/animate-ui/components/radix/tabs";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 function AIWellnessCoachPage() {
   return (
     <div className="flex flex-col min-h-screen text-foreground overflow-hidden p-6">
       <Tabs defaultValue="habits">
-        <TabsList className="mb-4 border-b border-border bg-transparent">
+        <TabsList className="mb-4 border-b border-border bg-primary/10">
           <TabsTrigger className="text-sm font-semibold px-4 cursor-pointer" value="habits">
             Habits & Goals Coach
           </TabsTrigger>
