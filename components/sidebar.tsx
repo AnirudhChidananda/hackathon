@@ -25,8 +25,10 @@ export function Sidebar({ currentPage, onPageChange }: SidebarProps) {
       {/* Logo/Header */}
 
       <div className=" border-b border-sidebar-border flex flex-row items-center justify-between">
-        <div className="p-4 w-full">
-          <h1 className="text-2xl font-bold text-sidebar-foreground">Rise</h1>
+        <div className="p-4 w-full cursor-pointer" onClick={() => onPageChange("dashboard")}>
+          <h1 className="text-2xl font-bold bg-linear-to-r from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text">
+            Rise
+          </h1>
           <p className="text-xs text-sidebar-foreground/60 mt-1 w-full">Wellness Tracker</p>
         </div>
 

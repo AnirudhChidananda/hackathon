@@ -24,14 +24,31 @@ import Navbar from "@/components/Navbar";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import Prism from "@/components/ui/prism";
+import { WistiaPlayer } from "@wistia/wistia-player-react";
 
 const HomePage = () => {
   return (
     <div>
       <Navbar />
-
       <div style={{ width: "100%", height: "600px", position: "relative" }}>
+        <div className="z-10 absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center ">
+          <div className="text-5xl font-bold tracking-tight mx-auto text-center">
+            Embrace your{" "}
+            <span className="bg-linear-to-r from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text">Inner Flame,</span>
+            Transform,{" "}
+            <span className="bg-linear-to-r from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text">Rise</span> Again
+          </div>
+          <div className="text-4xl py-4 text-center">
+            <span className="bg-linear-to-r  from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text font-bold">
+              AI powered
+            </span>{" "}
+            productivity and wellness
+          </div>
+        </div>
         <Prism animationType="rotate" timeScale={0.5} height={3.5} baseWidth={5.5} scale={3.6} hueShift={0} colorFrequency={1} noise={0.5} glow={1} />
+      </div>
+      <div className="w-full h-full p-8">
+        <WistiaPlayer mediaId="awq0rfvx2j" />;
       </div>
       <div className="flex flex-col min-h-screen text-foreground overflow-hidden">
         <section className="relative z-10 py-24 grow">
@@ -42,22 +59,6 @@ const HomePage = () => {
 
               {/* LEFT SIDE CONTENT */}
               <div className="lg:col-span-7 space-y-8 relative">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                  <div>
-                    <span className="text-foreground">Transform</span>
-                  </div>
-                  <div>
-                    <span className="text-primary">Your Body</span>
-                  </div>
-                  <div className="pt-2">
-                    <span className="text-foreground">With Advanced</span>
-                  </div>
-                  <div className="pt-2">
-                    <span className="text-foreground">AI</span>
-                    <span className="text-primary"> Technology</span>
-                  </div>
-                </h1>
-
                 {/* SEPERATOR LINE */}
                 <div className="h-px w-full bg-linear-to-r from-primary via-secondary to-primary opacity-50"></div>
 
@@ -86,7 +87,7 @@ const HomePage = () => {
                 {/* BUTTON */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   <Button size="lg" asChild className="overflow-hidden bg-primary text-primary-foreground px-8 py-6 text-lg font-medium">
-                    <Link href={"/generate-program"} className="flex items-center font-mono">
+                    <Link href={"/dashboard"} className="flex items-center font-mono">
                       Build Your Program
                       <ArrowRightIcon className="ml-2 size-5" />
                     </Link>

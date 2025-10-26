@@ -232,13 +232,15 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
         )}
         {/* Top Section: Mood and Stats */}
 
-        <Card className="bg-linear-to-r from-transparent via-purple-800 to-orange-500 text-white">
+        <Card className="bg-linear-to-r from-blue-200 dark:from-transparent via-purple-300 dark:via-purple-800 to-orange-500 text-white">
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <div className="text-4xl">🌟</div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">{completionRate >= 80 ? "You're crushing it today!" : "You're doing great!"}</h3>
-                <p className="text-purple-100">
+                <h3 className="text-xl font-semibold mb-2 text-foreground dark:text-purple-100">
+                  {completionRate >= 80 ? "You're crushing it today!" : "You're doing great!"}
+                </h3>
+                <p className="text-foreground dark:text-purple-100">
                   {completionRate >= 80
                     ? "Amazing progress! Keep up the momentum and finish strong! 💪"
                     : "Every habit you complete is a step towards a healthier, happier you. Keep going! 🚀"}
