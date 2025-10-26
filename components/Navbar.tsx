@@ -24,10 +24,10 @@ export default function NavbarComponent() {
       name: "Dashboard",
       link: "/dashboard",
     },
-    {
-      name: "Meditation",
-      link: "/meditation",
-    },
+    // {
+    //   name: "Meditation",
+    //   link: "/meditation",
+    // },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

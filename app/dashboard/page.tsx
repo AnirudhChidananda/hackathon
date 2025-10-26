@@ -7,21 +7,32 @@ import { Analytics } from "@/components/analytics";
 import { Profile } from "@/components/profile";
 import { Sidebar } from "@/components/sidebar";
 import { Onboarding } from "@/components/onboarding";
-import AIWellnessCoachPage from "@/app/meditation/page";
+import AIWellnessCoachPage from "@/components/Ai";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [showOnboarding, setShowOnboarding] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  // console.log(getToken({ template: "convex" }));
-  // const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     const onboardingComplete = localStorage.getItem("onboardingComplete");
     if (onboardingComplete === "true") {
       setShowOnboarding(false);
     }
+
     setIsLoading(false);
   }, []);
+
+  // useEffect(() => {
+  //   if (sidebarPage) {
+  //     setCurrentPage(sidebarPage);
+  //   }
+  // }, [sidebarPage]);
+
+  function handlePageChange(page: string) {
+    setCurrentPage(page);
+    localStorage.setItem("sidebarPage", page);
+  }
 
   if (isLoading) {
     return null;
@@ -34,7 +45,7 @@ export default function Home() {
   const renderPage = () => {
     switch (currentPage) {
       case "dashboard":
-        return <Dashboard setCurrentPage={setCurrentPage} />;
+        return <Dashboard setCurrentPage={handlePageChange} />;
       case "calendar":
         return <Calendar />;
       case "analytics":
@@ -44,7 +55,7 @@ export default function Home() {
       case "welness":
         return <AIWellnessCoachPage />;
       default:
-        return <Dashboard setCurrentPage={setCurrentPage} />;
+        return <Dashboard setCurrentPage={handlePageChange} />;
     }
   };
 

@@ -27,12 +27,11 @@ export const habitIconOptions = [
 ];
 
 export const moodIcons = [
-  { name: "happy", icon: "😊" },
-  { name: "sad", icon: "😢" },
-  { name: "angry", icon: "😠" },
-  { name: "confused", icon: "😕" },
-  { name: "surprised", icon: "😲" },
-  { name: "sleepy", icon: "😴" },
+  { id: "exhausted", emoji: "😴", label: "Exhausted" },
+  { id: "sad", emoji: "😢", label: "Sad" },
+  { id: "okay", emoji: "😐", label: "Okay" },
+  { id: "good", emoji: "😊", label: "Good" },
+  { id: "amazing", emoji: "🤩", label: "Amazing" },
 ];
 
 export const dummyUser: User = {

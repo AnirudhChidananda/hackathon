@@ -83,3 +83,27 @@ export const getTodayMoodLogs = query({
       .first();
   },
 });
+
+export const getAllMoodLogs = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return await ctx.db
+      .query("mood_logs")
+      .withIndex("by_user_id", (q) => q.eq("userId", user._id))
+      .collect();
+  },
+});

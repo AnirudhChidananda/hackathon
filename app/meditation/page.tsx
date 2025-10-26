@@ -123,10 +123,10 @@ function AIWellnessCoachPage() {
         {/* Title */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold font-mono">
-            <span>Meditation </span>
+            <span>Wellness </span>
             <span className="text-primary uppercase">Session</span>
           </h1>
-          <p className="text-muted-foreground mt-2">Have a voice conversation with our Meditation Assistant for a personalized session</p>
+          <p className="text-muted-foreground mt-2">Have a voice conversation with our Wellness Assistant for a personalized session</p>
         </div>
 
         {/* VIDEO CALL AREA */}
@@ -162,7 +162,7 @@ function AIWellnessCoachPage() {
               </div>
 
               <h2 className="text-xl font-bold text-foreground">AI Assistant</h2>
-              <p className="text-sm text-muted-foreground mt-1">Meditation & Wellness Coach</p>
+              <p className="text-sm text-muted-foreground mt-1">Wellness Coach</p>
 
               {/* SPEAKING INDICATOR */}
 
@@ -212,7 +212,7 @@ function AIWellnessCoachPage() {
             <div className="space-y-3">
               {messages.map((msg, index) => (
                 <div key={index} className="message-item animate-fadeIn">
-                  <div className="font-semibold text-xs text-muted-foreground mb-1">{msg.role === "assistant" ? "AI Agent" : "You"}:</div>
+                  <div className="font-semibold text-xs text-muted-foreground mb-1">{msg.role === "assistant" ? "Wellness Assistant" : "You"}:</div>
                   <p className="text-foreground">{msg.content}</p>
                 </div>
               ))}
@@ -220,7 +220,7 @@ function AIWellnessCoachPage() {
               {callEnded && (
                 <div className="message-item animate-fadeIn">
                   <div className="font-semibold text-xs text-primary mb-1">System:</div>
-                  <p className="text-foreground">Your meditation session has been completed. Redirecting to your profile...</p>
+                  <p className="text-foreground">Your wellness session has been completed. Redirecting to your profile...</p>
                 </div>
               )}
             </div>

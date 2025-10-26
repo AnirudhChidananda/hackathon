@@ -6,20 +6,19 @@ import { Doc } from "@/convex/_generated/dataModel";
 import { habitIconOptions } from "@/lib/dummy-data";
 
 interface EditHabitModalProps {
-  habit: Doc<"habits">;
-  onUpdate: (updates: Partial<Doc<"habits">>) => void;
+  habitData: Doc<"habits"> | null;
+  onUpdate: (updates: { name: string; icon: string; description: string }) => void;
   onClose: () => void;
 }
 
-export function EditHabitModal({ habit, onUpdate, onClose }: EditHabitModalProps) {
-  const [habitName, setHabitName] = useState(habit.name);
-  const [habitDescription, setHabitDescription] = useState(habit.description);
-  const [selectedIcon, setSelectedIcon] = useState(habit.icon);
+export function EditHabitModal({ habitData, onUpdate, onClose }: EditHabitModalProps) {
+  const [habitName, setHabitName] = useState(habitData?.name ?? "");
+  const [habitDescription, setHabitDescription] = useState(habitData?.description ?? "");
+  const [selectedIcon, setSelectedIcon] = useState(habitData?.icon ?? "");
 
   const handleUpdate = () => {
     if (habitName.trim()) {
       onUpdate({
-        _id: habit._id,
         name: habitName,
         icon: selectedIcon,
         description: habitDescription,
@@ -44,9 +43,9 @@ export function EditHabitModal({ habit, onUpdate, onClose }: EditHabitModalProps
             {habitIconOptions.map((icon) => (
               <button
                 key={icon.name}
-                onClick={() => setSelectedIcon(icon.icon)}
+                onClick={() => setSelectedIcon(icon.name)}
                 className={`p-3 rounded-xl text-2xl transition-all ${
-                  selectedIcon === icon.icon ? "bg-primary/20 ring-2 ring-primary scale-110" : "bg-muted hover:bg-muted/80"
+                  selectedIcon === icon.name ? "bg-primary/20 ring-2 ring-primary" : "bg-muted hover:bg-muted/80"
                 }`}
               >
                 {icon.icon}
@@ -78,14 +77,14 @@ export function EditHabitModal({ habit, onUpdate, onClose }: EditHabitModalProps
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-3 px-4 rounded-xl border border-border text-foreground hover:bg-muted transition-colors font-semibold"
+            className="cursor-pointer flex-1 py-3 px-4 rounded-xl border border-border text-foreground hover:bg-muted transition-colors font-semibold"
           >
             Cancel
           </button>
           <button
             onClick={handleUpdate}
             disabled={!habitName.trim()}
-            className="flex-1 py-3 px-4 rounded-xl bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity font-semibold"
+            className="cursor-pointer flex-1 py-3 px-4 rounded-xl bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity font-semibold"
           >
             Save Changes
           </button>

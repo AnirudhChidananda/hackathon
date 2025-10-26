@@ -259,7 +259,7 @@ export function Analytics() {
       </div>
 
       {/* Habit Performance */}
-      {analytics.habitPerformance.length > 0 && (
+      {/* {analytics.habitPerformance.length > 0 && (
         <div className="bg-card rounded-2xl p-8 border border-border mb-8">
           <h3 className="font-semibold text-foreground mb-6 text-lg">Habit Performance</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -285,7 +285,7 @@ export function Analytics() {
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Insights */}
       <div className="bg-card rounded-2xl p-8 border border-border">

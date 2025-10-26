@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Calendar, BarChart3, User, Command, LogOut } from "lucide-react";
+import { Home, Calendar, BarChart3, User, Atom, LogOut } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { useClerk } from "@clerk/nextjs";
@@ -17,7 +17,7 @@ export function Sidebar({ currentPage, onPageChange }: SidebarProps) {
     { id: "manage", label: "Habits & Goals", icon: User },
     { id: "calendar", label: "Streaks Calendar", icon: Calendar },
     { id: "analytics", label: "Performance", icon: BarChart3 },
-    { id: "welness", label: "AI Wellness Coach", icon: Command },
+    { id: "welness", label: "AI Wellness Coach", icon: Atom },
   ];
 
   return (
@@ -25,9 +25,9 @@ export function Sidebar({ currentPage, onPageChange }: SidebarProps) {
       {/* Logo/Header */}
 
       <div className=" border-b border-sidebar-border flex flex-row items-center justify-between">
-        <div className="p-6">
-          <h1 className="text-2xl font-bold text-sidebar-foreground">MindTrack</h1>
-          <p className="text-xs text-sidebar-foreground/60 mt-1">Wellness Tracker</p>
+        <div className="p-4 w-full">
+          <h1 className="text-2xl font-bold text-sidebar-foreground">Rise</h1>
+          <p className="text-xs text-sidebar-foreground/60 mt-1 w-full">Wellness Tracker</p>
         </div>
 
         <div className="p-4  space-y-3 w-full flex justify-end">

@@ -12,7 +12,7 @@ export function OnboardingComplete({ userData, onNext }: OnboardingCompleteProps
 
       <div>
         <h2 className="text-3xl font-bold text-foreground mb-2">You're all set!</h2>
-        <p className="text-muted-foreground">Your MindTrack journey is about to begin</p>
+        <p className="text-muted-foreground">Your Rise journey is about to begin</p>
       </div>
 
       <div className="bg-card rounded-2xl p-6 border border-border space-y-4">

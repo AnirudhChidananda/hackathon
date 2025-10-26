@@ -53,7 +53,7 @@ export function AddHabitModal({ onClose }: AddHabitModalProps) {
                 key={icon.name}
                 onClick={() => setSelectedIcon(icon.name)}
                 className={`p-3 rounded-xl text-2xl transition-all ${
-                  selectedIcon === icon.name ? "bg-primary/20 ring-2 ring-primary scale-110" : "bg-muted hover:bg-muted/80"
+                  selectedIcon === icon.name ? "bg-primary/20 ring-2 ring-primary " : "bg-muted hover:bg-muted/80"
                 }`}
               >
                 {icon.icon}

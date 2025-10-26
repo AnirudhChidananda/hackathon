@@ -8,6 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { getDay } from "date-fns";
 import { toast } from "sonner";
 import { log } from "console";
+import { moodIcons } from "@/lib/dummy-data";
 
 export function MoodPicker({ start }: { start: Date }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,13 +17,6 @@ export function MoodPicker({ start }: { start: Date }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [journalEntry, setJournalEntry] = useState("");
   const [currentMood, setCurrentMood] = useState<string | null>(null);
-  const moods = [
-    { id: "exhausted", emoji: "😴", label: "Exhausted" },
-    { id: "sad", emoji: "😢", label: "Sad" },
-    { id: "okay", emoji: "😐", label: "Okay" },
-    { id: "good", emoji: "😊", label: "Good" },
-    { id: "amazing", emoji: "🤩", label: "Amazing" },
-  ];
 
   const handleAddMoodLog = () => {
     setIsLoading(true);
@@ -72,7 +66,7 @@ export function MoodPicker({ start }: { start: Date }) {
         )}
       </div>
       <div className="flex flex-wrap justify-center gap-3">
-        {moods.map((m) => (
+        {moodIcons.map((m) => (
           <button
             key={m.id}
             onClick={() => {
@@ -80,7 +74,7 @@ export function MoodPicker({ start }: { start: Date }) {
               setCurrentMood(m.id);
             }}
             className={`flex flex-col items-center gap-1 p-3 rounded-lg transition-all w-[100px] cursor-pointer ${
-              currentMood === m.id ? "bg-primary/20 scale-110" : "hover:bg-muted"
+              currentMood === m.id ? "bg-primary/20 scale-110" : "hover:bg-neutral-200 dark:hover:bg-muted"
             } ${todayMoodLogs && todayMoodLogs.mood === m.id ? "opacity-50 border border-primary" : ""}`}
             title={m.label}
           >
@@ -115,10 +109,11 @@ export function MoodPicker({ start }: { start: Date }) {
             <div className="flex items-center gap-2 mb-2">
               <h3 className="text-lg font-semibold ">{todayMoodLogs && "Update"} Journal Entry</h3>
 
-              <span className="text-3xl leading-none">{moods.find((m) => m.id === currentMood)?.emoji}</span>
+              <span className="text-3xl leading-none">{moodIcons.find((m) => m.id === currentMood)?.emoji}</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
-              You seem to be feeling {currentMood} today!. Let's reflect on your day to organise your thought process.
+              You seem to be feeling <span className="text-primary">{currentMood}</span> today!. Let's reflect on your day to organise your thought
+              process.
             </p>
             <textarea
               className="w-full rounded-lg border border-border bg-muted px-3 py-2 mb-4 resize-none text-base focus:outline-none focus:ring-2 focus:ring-primary"

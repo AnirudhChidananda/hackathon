@@ -5,8 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Circle, Plus, Settings2 } from "lucide-react";
 import { habitIconOptions } from "@/lib/dummy-data";
-// import { HabitEntry } from "@/lib/types";
 import { RadialChart } from "@/components/radial-chart";
+import { ChartRadarDots } from "@/components/radar-chart";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { MoodPicker } from "./mood-picker";
 import { useUser } from "@clerk/nextjs";
@@ -30,8 +30,6 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
   const todayEntries = todayLogs?.habitList ?? [];
 
   useEffect(() => {
-    console.log(fetchHabits);
-
     if (fetchHabits) {
       setAllHabits(fetchHabits);
     }
@@ -63,7 +61,15 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
         updateHabitLog({
           habitList: newEntries,
           habitLogId: todayLogs._id,
-        });
+        })
+          .then(() => {
+            toast.success("Activity logged successfully");
+          })
+          .catch((error) => {
+            toast.error("Failed to log habit", {
+              description: error.message,
+            });
+          });
       } else {
         allHabits.forEach((habit) => {
           if (habit._id === habitId) {
@@ -116,10 +122,16 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
         </div>
 
         {/* Stats Overview */}
-        <div className="flex gap-6 items-center">
-          <div className="w-[250px] rounded-2xl">
-            <RadialChart todayEntries={todayEntries} allHabits={allHabits} />
+        <div className="flex flex-col md:flex-row gap-6 items-center ">
+          <div className="flex items-centermd:flex-row gap-4">
+            <div className="w-[250px] rounded-2xl">
+              <RadialChart todayEntries={todayEntries} allHabits={allHabits} />
+            </div>
+            {/* <div className="w-[300px] rounded-2xl">
+              <ChartRadarDots />
+            </div> */}
           </div>
+
           <div className="relative rounded-2xl">
             <MoodPicker start={start} />
             <ShineBorder shineColor={["#A07CFE", "#FE8FB5"]} />
@@ -138,7 +150,7 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
           </div>
           <div>
             <button
-              onClick={() => setCurrentPage("profile")}
+              onClick={() => setCurrentPage("manage")}
               className="bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
             >
               <Settings2 className="w-5 h-5" />
@@ -208,7 +220,7 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
               <div className="flex flex-col gap-4 items-center justify-center">
                 <div className="text-center text-gray-500">You currently have no habits set up</div>
                 <button
-                  onClick={() => setCurrentPage("profile")}
+                  onClick={() => setCurrentPage("manage")}
                   className="bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   <Plus className="w-5 h-5" />
@@ -220,7 +232,7 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
         )}
         {/* Top Section: Mood and Stats */}
 
-        <Card className="bg-linear-to-r from-purple-500 via-pink-500 to-orange-500 text-white">
+        <Card className="bg-linear-to-r from-transparent via-purple-800 to-orange-500 text-white">
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <div className="text-4xl">🌟</div>

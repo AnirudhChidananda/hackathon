@@ -1,24 +1,34 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ChevronLeft, Edit2, Trash2, TrendingUp } from "lucide-react";
 import { useHabitHistory } from "@/hooks/use-habit-history";
 import { EditHabitModal } from "./edit-habit-modal";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
-import { Doc } from "@/convex/_generated/dataModel";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 import { habitIconOptions } from "@/lib/dummy-data";
 
 interface HabitDetailsProps {
-  habit: Doc<"habits">;
+  allHabits: Doc<"habits">[];
+  habitId: Id<"habits">;
   onBack: () => void;
 }
 
-export function HabitDetails({ habit, onBack }: HabitDetailsProps) {
-  const deleteHabit = useMutation(api.habits.deleteHabit);
-  const updateHabit = useMutation(api.habits.updateHabit);
+export function HabitDetails({ allHabits, habitId, onBack }: HabitDetailsProps) {
   const { history } = useHabitHistory();
   const [showEditModal, setShowEditModal] = useState(false);
+  const [habitData, setHabitData] = useState<Doc<"habits"> | null>(null);
+
+  useEffect(() => {
+    if (allHabits && habitId) {
+      const habitData = allHabits.find((h) => h._id === habitId);
+
+      if (habitData) {
+        setHabitData(habitData);
+      }
+    }
+  }, [allHabits, habitId]);
 
   // Calculate statistics
   const last30Days = useMemo(() => {
@@ -32,7 +42,7 @@ export function HabitDetails({ habit, onBack }: HabitDetailsProps) {
       days.push({ date: dateStr, completed: isCompleted });
     }
     return days;
-  }, [history, habit]);
+  }, [history, habitId]);
 
   const completedDays = last30Days.filter((d) => d.completed).length;
   const completionRate = Math.round((completedDays / 30) * 100);
@@ -51,18 +61,13 @@ export function HabitDetails({ habit, onBack }: HabitDetailsProps) {
   }, [last30Days]);
 
   const handleDelete = () => {
-    if (confirm(`Delete "${habit?.name}"? This action cannot be undone.`)) {
-      deleteHabit({ habitId: habit._id });
+    if (confirm(`Delete "${habitData?.name}"? This action cannot be undone.`)) {
+      // deleteHabit({ habitId: habitId });
       onBack();
     }
   };
 
-  const handleUpdate = (updates: Partial<Doc<"habits">>) => {
-    updateHabit({ habitId: habit._id, name: habit.name, icon: habit.icon, description: habit.description });
-    setShowEditModal(false);
-  };
-
-  if (!habit) {
+  if (!habitId) {
     return (
       <div className="p-6 max-w-md mx-auto">
         <button onClick={onBack} className="flex items-center gap-2 text-primary hover:opacity-80 transition-opacity mb-6">
@@ -95,10 +100,10 @@ export function HabitDetails({ habit, onBack }: HabitDetailsProps) {
       {/* Habit Header */}
       <div className="bg-card rounded-2xl p-6 border border-border mb-6">
         <div className="flex items-start gap-4">
-          <span className="text-5xl">{habitIconOptions.find((icon) => icon.name === habit.icon)?.icon}</span>
+          <span className="text-5xl">{habitIconOptions.find((icon) => icon.name === habitData?.icon)?.icon}</span>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-foreground mb-1">{habit.name}</h1>
-            <p className="text-sm text-muted-foreground capitalize">{habit.description}</p>
+            <h1 className="text-2xl font-bold text-foreground mb-1">{habitData?.name}</h1>
+            <p className="text-sm text-muted-foreground capitalize">{habitData?.description}</p>
           </div>
           {/* <div
             className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all cursor-pointer ${
@@ -170,19 +175,19 @@ export function HabitDetails({ habit, onBack }: HabitDetailsProps) {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Created</span>
-            <span className="font-semibold text-foreground">{new Date(habit.createdDate).toLocaleDateString()}</span>
+            <span className="font-semibold text-foreground">{new Date(habitData?.createdDate ?? "").toLocaleDateString()}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Days Active</span>
             <span className="font-semibold text-foreground">
-              {Math.floor((Date.now() - new Date(habit.createdDate).getTime()) / (1000 * 60 * 60 * 24))} days
+              {Math.floor((Date.now() - new Date(habitData?.createdDate ?? "").getTime()) / (1000 * 60 * 60 * 24))} days
             </span>
           </div>
         </div>
       </div>
 
       {/* Edit Modal */}
-      {showEditModal && <EditHabitModal habit={habit} onUpdate={handleUpdate} onClose={() => setShowEditModal(false)} />}
+      {/* {showEditModal && <EditHabitModal habitData={habitData} onUpdate={handleUpdate} onClose={() => setShowEditModal(false)} />} */}
     </div>
   );
 }
