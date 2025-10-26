@@ -172,7 +172,7 @@ function AIMotivationPage() {
                 <div className={`w-2 h-2 rounded-full ${isSpeaking ? "bg-primary animate-pulse" : "bg-muted"}`} />
 
                 <span className="text-xs text-muted-foreground">
-                  {isSpeaking ? "Speaking..." : callActive ? "Listening..." : callEnded ? "Redirecting to profile..." : "Waiting..."}
+                  {isSpeaking ? "Speaking..." : callActive ? "Listening..." : callEnded ? "Thank you for your time!" : "Waiting..."}
                 </span>
               </div>
             </div>

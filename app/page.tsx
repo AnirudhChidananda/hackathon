@@ -34,9 +34,12 @@ const HomePage = () => {
       <div className="flex flex-col items-center justify-center max-w-5xl mx-auto py-6 px-4 mb-4">
         <div className="text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight">
           <div className="flex flex-col items-center justify-center text-center gap-4">
-            <div className="text-primary"> Rise from yesterday’s ashes.</div>
+            <div className="bg-linear-to-r from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text">
+              {" "}
+              Rise from yesterday’s ashes.
+            </div>
             <div className="text-foreground text-xl md:text-2xl lg:text-3xl">Transform your habits, transform your life.</div>
-            <div className="text-primary">With RISE, every day is a chance for renewal and growth.</div>
+            <div className="text-primary">With Rise, every day is a chance for renewal and growth.</div>
           </div>
         </div>
       </div>

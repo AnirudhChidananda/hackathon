@@ -31,7 +31,6 @@ export const addMoodLog = mutation({
 
 export const updateMoodLog = mutation({
   args: {
-    userId: v.id("users"),
     moodLogId: v.id("mood_logs"),
     mood: v.string(),
     note: v.optional(v.string()),
@@ -42,16 +41,12 @@ export const updateMoodLog = mutation({
       throw new Error("Mood log not found");
     }
 
-    if (args.userId !== identity.subject) {
-      throw new Error("Unauthorized");
-    }
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
 
-    const moodLog = await ctx.db.get(args.moodLogId);
-    if (!moodLog) {
-      throw new Error("Mood log not found");
-    }
-
-    if (moodLog.userId !== args.userId) {
+    if (user?.clerkId !== identity.subject) {
       throw new Error("Unauthorized");
     }
 

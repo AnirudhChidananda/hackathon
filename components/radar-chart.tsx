@@ -9,13 +9,13 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "
 export const description = "A radar chart with dots";
 
 const chartData = [
-  { month: "amazing", desktop: 0 },
+  { month: "amazing", desktop: 5 },
 
-  { month: "sad", desktop: 0 },
-  { month: "okay", desktop: 0 },
-  { month: "exhausted", desktop: 0 },
+  { month: "sad", desktop: 3 },
+  { month: "okay", desktop: 4 },
+  { month: "exhausted", desktop: 2 },
 
-  { month: "good", desktop: 0 },
+  { month: "good", desktop: 5 },
 ];
 
 const chartConfig = {

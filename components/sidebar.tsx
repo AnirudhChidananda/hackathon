@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, ScanEye, BarChart3, User, Atom, LogOut, NotebookPen } from "lucide-react";
+import { Home, BarChart3, User, Atom, LogOut } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { useClerk } from "@clerk/nextjs";
@@ -17,7 +17,7 @@ export function Sidebar({ currentPage, onPageChange }: SidebarProps) {
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: Home },
     { id: "manage", label: "Habits & Goals", icon: User },
-    { id: "calendar", label: "The Phoenix Cycle", icon: ScanEye },
+    { id: "calendar", label: "The Phoenix Cycle", icon: BarChart3 },
     // { id: "journal", label: "Flame Journal", icon: NotebookPen },
     { id: "welness", label: "AI Wellness Assistant", icon: Atom },
   ];

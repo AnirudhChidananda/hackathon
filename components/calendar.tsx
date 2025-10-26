@@ -38,7 +38,6 @@ import { Analytics } from "./analytics";
 
 export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [thisWeeksProgress, setThisWeeksProgress] = useState(0);
   const allhabits = useQuery(api.habits.getHabits, {});
   const allHabitLogs = useQuery(api.habit_logs.getAllHabitLogs, {});
   const allMoodLogs = useQuery(api.mood_logs.getAllMoodLogs, {});
@@ -144,58 +143,30 @@ export function Calendar() {
           {/* Weekly Breakdown Sidebar */}
           <div className="bg-card rounded-2xl p-8 border border-border h-fit">
             <h3 className="font-semibold text-foreground mb-6 text-lg">Weekly Habit Breakdown</h3>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {Array.from({ length: Math.ceil(daysInMonth / 7) }).map((_, weekIndex) => {
-                // const weekStart = weekIndex * 7 + 1;
-                // const weekEnd = Math.min(weekStart + 6, daysInMonth);
-                // const weekDays = Array.from({ length: weekEnd - weekStart + 1 }, (_, i) => weekStart + i);
-                // const weekCompletion = weekDays.reduce((sum, day) => {
-                //   const stats = monthStats[day];
-                //   return sum + (stats && stats.completed > 0 ? 1 : 0);
-                // }, 0);
-
                 const filterLogs = allHabitLogs?.filter((log) => {
-                  // console.log("getWeekOfMonth(new Date(log.date))", getWeekOfMonth(new Date(log.date)));
                   if (log?.habitList.find((habit) => habit.completed)) {
                     return getWeekOfMonth(new Date(log.date)) === weekIndex + 1;
                   }
                 });
-
                 let completionRate = 0;
 
                 if (filterLogs && filterLogs?.length > 0) {
                   completionRate = Math.round((filterLogs?.length / 7) * 100);
-                  // const thisWeeek = getWeekOfMonth(new Date());
-                  // if (thisWeeek === weekIndex + 1) {
-                  //   setThisWeeksProgress(completionRate);
-                  // }
                 }
-
                 return (
                   <div key={`week-${weekIndex}`} className="p-4 bg-muted rounded-lg">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm font-medium text-foreground">Week {weekIndex + 1}</span>
                       <span className="text-sm font-bold text-primary">{completionRate}%</span>
                     </div>
-                    {/* <div className="flex gap-1">
-                    {weekDays.map((day) => {
-                      const stats = monthStats[day];
-                      const hasCompletion = stats && stats.completed > 0;
-
-                      return (
-                        <div
-                          key={day}
-                          className={`flex-1 h-2 rounded-full transition-all ${hasCompletion ? "bg-primary" : "bg-border"}`}
-                          title={`Day ${day}: ${filterLogs?.length || 0}/${stats?.total || 0}`}
-                        />
-                        //   {weekStart}
-                        // </div>
-                      );
-                    })}
-                  </div> */}
                   </div>
                 );
               })}
+            </div>
+            <div className="flex items-center justify-center py-2 ">
+              <img src="/h4.png" alt="Calendar" className="w-full h-full object-cover" />
             </div>
           </div>
 
@@ -214,7 +185,7 @@ export function Calendar() {
       </div> */}
         </div>
       </div>
-      <Analytics thisWeeksProgress={thisWeeksProgress} />
+      <Analytics allHabitLogs={allHabitLogs ?? []} allMoodLogs={allMoodLogs ?? []} />
     </div>
   );
 }

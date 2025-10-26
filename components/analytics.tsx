@@ -1,27 +1,22 @@
 "use client";
 
-import { Trophy, Flame, TrendingUp, Target, Calendar } from "lucide-react";
+import { Trophy, Target, Flame, CheckCircle, SmileIcon } from "lucide-react";
 import { useHabits } from "@/hooks/use-habits";
 import { useHabitHistory } from "@/hooks/use-habit-history";
 import { useMemo } from "react";
-import { habitIconOptions } from "@/lib/dummy-data";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { dummyHabits, dummyEntries, dummyAnalytics } from "@/lib/dummy-data";
-import { HabitEntry } from "@/lib/types";
-import { useState } from "react";
+
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { startOfToday } from "date-fns";
+import { Doc } from "@/convex/_generated/dataModel";
 
-export function Analytics({ thisWeeksProgress }: { thisWeeksProgress: number }) {
+export function Analytics({ allHabitLogs, allMoodLogs }: { allHabitLogs: Doc<"habit_logs">[]; allMoodLogs: Doc<"mood_logs">[] }) {
   const start = startOfToday();
   const todayLogs = useQuery(api.habit_logs.getTodayHabitLogs, { date: start.toISOString() });
 
   const allHabits = useQuery(api.habits.getHabits, {});
-  const [entries, setEntries] = useState<HabitEntry[]>(dummyEntries);
-  const today = new Date().toISOString().split("T")[0];
 
   const todayTotalEntries = todayLogs?.habitList ?? [];
   const completedHabits = todayTotalEntries.filter((entry: any) => entry.completed).length;
@@ -126,10 +121,10 @@ export function Analytics({ thisWeeksProgress }: { thisWeeksProgress: number }) 
 
     return insights;
   };
-  const todayEntries = entries.filter((entry) => entry.date === today);
+  // const todayEntries = entries.filter((entry) => entry.date === today);
 
-  const completedToday = todayEntries.filter((entry) => entry.completed).length;
-  const completionRate = Math.round((completedToday / dummyHabits.length) * 100);
+  // const completedToday = todayEntries.filter((entry) => entry.completed).length;
+  // const completionRate = Math.round((completedToday / dummyHabits.length) * 100);
 
   return (
     <div className="p-8">
@@ -155,18 +150,18 @@ export function Analytics({ thisWeeksProgress }: { thisWeeksProgress: number }) 
           </CardContent>
         </Card>
 
-        {/* <Card>
+        <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div className=" flex flex-col gap-2">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">This Week's Progress</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">{thisWeeksProgress}%</p>
-                <p className="text-xs text-muted-foreground mt-2">completed</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Habit Logs</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{allHabitLogs?.length || 0}</p>
+                <p className="text-xs text-muted-foreground mt-2">days</p>
               </div>
-              <Flame className="h-8 w-8 text-orange-500" />
+              <CheckCircle className="h-8 w-8 text-purple-500" />
             </div>
           </CardContent>
-        </Card> */}
+        </Card>
 
         <Card>
           <CardContent className="p-6">
@@ -176,23 +171,24 @@ export function Analytics({ thisWeeksProgress }: { thisWeeksProgress: number }) 
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">{allHabits?.length || 0}</p>
                 <p className="text-xs text-muted-foreground mt-2">active</p>
               </div>
-              <TrendingUp className="h-8 w-8 text-green-500" />
+
+              <Flame className="h-8 w-8 text-orange-500" />
             </div>
           </CardContent>
         </Card>
 
-        {/* <Card>
+        <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div className=" flex flex-col gap-2">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Best Streak</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Mood Logs</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{allMoodLogs?.length || 0}</p>
                 <p className="text-xs text-muted-foreground mt-2">days</p>
               </div>
-              <CheckCircle className="h-8 w-8 text-purple-500" />
+              <SmileIcon className="h-8 w-8 text-orange-500" />
             </div>
           </CardContent>
-        </Card> */}
+        </Card>
       </div>
 
       {/* Insights */}

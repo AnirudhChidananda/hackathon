@@ -13,11 +13,11 @@ import { moodIcons } from "@/lib/dummy-data";
 export function MoodPicker({ start }: { start: Date }) {
   const [isLoading, setIsLoading] = useState(false);
   const addMoodLog = useMutation(api.mood_logs.addMoodLog);
+  const updateMoodLog = useMutation(api.mood_logs.updateMoodLog);
   const todayMoodLogs = useQuery(api.mood_logs.getTodayMoodLogs, { date: start.toISOString() });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [journalEntry, setJournalEntry] = useState("");
   const [currentMood, setCurrentMood] = useState<string | null>(null);
-
   const handleAddMoodLog = () => {
     setIsLoading(true);
 
@@ -26,24 +26,43 @@ export function MoodPicker({ start }: { start: Date }) {
       toast.error("Please select a mood");
       return;
     } else {
-      addMoodLog({
-        mood: currentMood,
-        note: journalEntry,
-        date: start.toISOString(),
-        day: getDay(start).toString(),
-      })
-        .then(() => {
-          setIsLoading(false);
-          setIsModalOpen(false);
-          setJournalEntry("");
-          toast.success("Mood logged successfully");
+      if (!todayMoodLogs) {
+        addMoodLog({
+          mood: currentMood,
+          note: journalEntry,
+          date: start.toISOString(),
+          day: getDay(start).toString(),
         })
-        .catch((error) => {
-          setIsLoading(false);
-          toast.error("Failed to log mood", {
-            description: error.message,
+          .then(() => {
+            setIsLoading(false);
+            setIsModalOpen(false);
+            setJournalEntry("");
+            toast.success("Mood logged successfully");
+          })
+          .catch((error) => {
+            setIsLoading(false);
+            toast.error("Failed to log mood", {
+              description: error.message,
+            });
           });
-        });
+      } else {
+        updateMoodLog({
+          moodLogId: todayMoodLogs._id,
+          mood: currentMood,
+          note: journalEntry,
+        })
+          .then(() => {
+            setIsLoading(false);
+            setIsModalOpen(false);
+            toast.success("Mood updated successfully");
+          })
+          .catch((error) => {
+            setIsLoading(false);
+            toast.error("Failed to update mood", {
+              description: error.message,
+            });
+          });
+      }
     }
   };
 
@@ -68,8 +87,10 @@ export function MoodPicker({ start }: { start: Date }) {
           <button
             key={m.id}
             onClick={() => {
-              setIsModalOpen(true);
-              setCurrentMood(m.id);
+              if (!todayMoodLogs) {
+                setIsModalOpen(true);
+                setCurrentMood(m.id);
+              }
             }}
             className={`flex flex-col items-center gap-1 p-3 rounded-lg transition-all w-[100px] cursor-pointer ${
               currentMood === m.id ? "bg-primary/20 scale-110" : "hover:bg-neutral-200 dark:hover:bg-muted"
