@@ -12,16 +12,15 @@ import DashNav from "@/components/DashNav";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState("dashboard");
-  const [showOnboarding, setShowOnboarding] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [showOnboarding, setShowOnboarding] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const onboardingComplete = localStorage.getItem("onboardingComplete");
-    if (onboardingComplete === "true") {
-      setShowOnboarding(false);
-    }
-
-    setIsLoading(false);
+    // const onboardingComplete = localStorage.getItem("onboardingComplete");
+    // if (onboardingComplete === "true") {
+    //   setShowOnboarding(false);
+    // }
+    // setIsLoading(false);
   }, []);
 
   // useEffect(() => {
@@ -35,13 +34,13 @@ export default function Home() {
     localStorage.setItem("sidebarPage", page);
   }
 
-  if (isLoading) {
-    return null;
-  }
+  // if (isLoading) {
+  //   return null;
+  // }
 
-  if (showOnboarding) {
-    return <Onboarding onComplete={() => setShowOnboarding(false)} />;
-  }
+  // if (showOnboarding) {
+  //   return <Onboarding onComplete={() => setShowOnboarding(false)} />;
+  // }
 
   const renderPage = () => {
     switch (currentPage) {

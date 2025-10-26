@@ -25,7 +25,6 @@ export function Onboarding({ onComplete }: OnboardingProps) {
     { component: OnboardingWelcome, title: "Welcome" },
     { component: OnboardingGoals, title: "Your Goals" },
     { component: OnboardingHabits, title: "Create Habits" },
-    { component: OnboardingFrequency, title: "Set Frequency" },
     { component: OnboardingComplete, title: "All Set" },
   ];
 
@@ -39,8 +38,8 @@ export function Onboarding({ onComplete }: OnboardingProps) {
       setStep(step + 1);
     } else {
       // Save onboarding completion to localStorage
-      localStorage.setItem("onboardingComplete", "true");
-      localStorage.setItem("userData", JSON.stringify(userData));
+      // localStorage.setItem("onboardingComplete", "true");
+      // localStorage.setItem("userData", JSON.stringify(userData));
       onComplete();
     }
   };
@@ -70,18 +69,18 @@ export function Onboarding({ onComplete }: OnboardingProps) {
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex gap-3 mt-8">
+        <div className="flex gap-3 mt-4">
           <button
             onClick={handleBack}
             disabled={step === 0}
-            className="flex-1 py-3 px-4 rounded-xl border border-border text-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+            className="cursor-pointer flex-1 py-3 px-4 rounded-xl border border-border text-foreground hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
           >
             <ChevronLeft className="w-4 h-4" />
             Back
           </button>
           <button
             onClick={() => handleNext()}
-            className="flex-1 py-3 px-4 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center justify-center gap-2 font-semibold"
+            className="cursor-pointer flex-1 py-3 px-4 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center justify-center gap-2 font-semibold"
           >
             {step === steps.length - 1 ? "Get Started" : "Next"}
             {step < steps.length - 1 && <ChevronRight className="w-4 h-4" />}

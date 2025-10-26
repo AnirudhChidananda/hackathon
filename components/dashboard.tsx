@@ -17,9 +17,11 @@ import { useMutation } from "convex/react";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { toast } from "sonner";
 import GoalsComponent from "./goals-list";
+import { AddHabitModal } from "./add-habit-modal";
 
 export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   const [allHabits, setAllHabits] = useState<any[]>([]);
+  const [showAddHabitModal, setShowAddHabitModal] = useState(false);
   const start = startOfToday();
   const fetchHabits = useQuery(api.habits.getHabits, {});
   const todayLogs = useQuery(api.habit_logs.getTodayHabitLogs, { date: start.toISOString() });
@@ -159,14 +161,26 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
             </button>
           </div>
         </div>
-
+        {showAddHabitModal && <AddHabitModal onClose={setShowAddHabitModal} />}
         {/* Today's Habits */}
         {allHabits && allHabits?.length > 0 ? (
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span>Today's Habits</span>
-                <Badge variant="secondary">{completionRate}% Complete</Badge>
+                <div className="flex flex-row justify-between w-full items-center gap-2">
+                  <div>
+                    <span>Today's Habits</span>
+                    <Badge variant="secondary">{completionRate}% Complete</Badge>
+                    <div className="flex flex-col gap-4 items-center justify-center"></div>
+                  </div>
+                  <button
+                    onClick={() => setShowAddHabitModal(true)}
+                    className="bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
+                  >
+                    <Plus className="w-5 h-5" />
+                    ADD NEW HABITS
+                  </button>
+                </div>
               </CardTitle>
               <CardDescription>Check off your habits as you complete them throughout the day</CardDescription>
             </CardHeader>
@@ -221,7 +235,7 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
               <div className="flex flex-col gap-4 items-center justify-center">
                 <div className="text-center text-gray-500">You currently have no habits set up</div>
                 <button
-                  onClick={() => setCurrentPage("manage")}
+                  onClick={() => setShowAddHabitModal(true)}
                   className="bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   <Plus className="w-5 h-5" />

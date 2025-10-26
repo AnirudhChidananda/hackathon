@@ -7,7 +7,7 @@ interface OnboardingWelcomeProps {
 
 export function OnboardingWelcome({ userData, onNext }: OnboardingWelcomeProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
         <h2 className="text-3xl font-bold text-foreground mb-3">Welcome to Rise</h2>
         <p className="text-lg text-muted-foreground">Build consistent daily habits and transform your wellness journey</p>

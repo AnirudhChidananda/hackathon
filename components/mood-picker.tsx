@@ -99,6 +99,7 @@ export function MoodPicker({ start }: { start: Date }) {
                   setIsModalOpen(false);
                   if (!todayMoodLogs) {
                     setCurrentMood(null);
+                    setJournalEntry("");
                   }
                 }}
               />

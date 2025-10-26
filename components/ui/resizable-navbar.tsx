@@ -192,7 +192,7 @@ export const MobileNavToggle = ({ isOpen, onClick }: { isOpen: boolean; onClick:
 export const NavbarLogo = () => {
   return (
     <a href="#" className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black">
-      <img src="/logo.png" alt="logo" width={30} height={30} />
+      <img src="/h3.png" alt="logo" width={30} height={30} className="rounded-full" />
       <div className="text-2xl font-bold bg-linear-to-r from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text">
         Rise
       </div>

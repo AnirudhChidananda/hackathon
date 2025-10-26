@@ -103,14 +103,14 @@ export function AddHabitModal({ onClose }: AddHabitModalProps) {
         <div className="flex gap-3">
           <button
             onClick={() => onClose(false)}
-            className="flex-1 py-3 px-4 rounded-xl border border-border text-foreground hover:bg-muted transition-colors font-semibold"
+            className="cursor-pointer flex-1 py-3 px-4 rounded-xl border border-border text-foreground hover:bg-muted transition-colors font-semibold"
           >
             Cancel
           </button>
           <button
             onClick={handleAdd}
             disabled={!habitName.trim() || !habitDescription.trim()}
-            className="flex-1 py-3 px-4 rounded-xl bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity font-semibold"
+            className="cursor-pointer flex-1 py-3 px-4 rounded-xl bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity font-semibold"
           >
             Add Habit
           </button>
