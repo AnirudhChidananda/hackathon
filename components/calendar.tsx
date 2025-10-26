@@ -38,6 +38,7 @@ import { Analytics } from "./analytics";
 
 export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [thisWeeksProgress, setThisWeeksProgress] = useState(0);
   const allhabits = useQuery(api.habits.getHabits, {});
   const allHabitLogs = useQuery(api.habit_logs.getAllHabitLogs, {});
   const allMoodLogs = useQuery(api.mood_logs.getAllMoodLogs, {});
@@ -164,6 +165,10 @@ export function Calendar() {
 
                 if (filterLogs && filterLogs?.length > 0) {
                   completionRate = Math.round((filterLogs?.length / 7) * 100);
+                  // const thisWeeek = getWeekOfMonth(new Date());
+                  // if (thisWeeek === weekIndex + 1) {
+                  //   setThisWeeksProgress(completionRate);
+                  // }
                 }
 
                 return (
@@ -209,7 +214,7 @@ export function Calendar() {
       </div> */}
         </div>
       </div>
-      <Analytics />
+      <Analytics thisWeeksProgress={thisWeeksProgress} />
     </div>
   );
 }

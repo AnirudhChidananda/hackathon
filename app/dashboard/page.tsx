@@ -48,8 +48,8 @@ export default function Home() {
         return <Dashboard setCurrentPage={handlePageChange} />;
       case "calendar":
         return <Calendar />;
-      case "analytics":
-        return <Analytics />;
+      // case "analytics":
+      //   return <Analytics />;
       case "manage":
         return <Profile />;
       case "welness":

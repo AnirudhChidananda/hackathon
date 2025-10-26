@@ -37,7 +37,6 @@ export default function GoalsComponent() {
   };
 
   const handleUpdateGoal = (updateData: any) => {
-    console.log("updateData", updateData);
     const descriptionData = updateData.description ?? "";
     if (updateData) {
       updateGoal({ goalId: updateData._id, title: updateData.title, description: descriptionData, progress: updateData.progress, active: true })
@@ -54,10 +53,16 @@ export default function GoalsComponent() {
 
   const handleConfirmDeleteGoal = (goalId: Id<"goals">) => {
     if (goalId) {
-      deleteGoal({ goalId: goalId });
-      toast.success("Goal deleted successfully");
+      deleteGoal({ goalId: goalId })
+        .then(() => {
+          toast.success("Goal deleted successfully");
+          setShowDeleteGoal(false);
+          setGoalToDelete(null);
+        })
+        .catch(() => {
+          toast.error("Failed to delete goal");
+        });
     }
-    setShowDeleteGoal(false);
   };
 
   // ConfirmDeleteModal component: can be reused for deleting habits, goals, etc.
@@ -116,7 +121,10 @@ export default function GoalsComponent() {
       <div className="">
         <div className="bg-card rounded-2xl p-8 border border-border">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-semibold text-foreground text-lg">Your Goals</h3>
+            <div className="flex flex-col gap-2">
+              <h3 className="font-semibold text-foreground text-lg">Your Goals</h3>
+              <div className="flex text-sm text-muted-foreground  gap-2">Goals help you stay focused and motivated.</div>
+            </div>
 
             <button
               onClick={() => setShowAddGoal(!showAddGoal)}
@@ -149,7 +157,7 @@ export default function GoalsComponent() {
                   classNames={{
                     track: "bg-primary/20 !rounded-lg cursor-pointer",
                     thumb: "bg-purple-100 dark:bg-black !rounded-lg border-4 border-green-500 cursor-pointer",
-                    // value: "text-primary",
+                    value: "text-primary",
                     base: "rounded-lg",
                     filler: "rounded-lg bg-linear-to-r from-green-50 to-green-100 dark:from-green-300 dark:to-green-500 cursor-pointer",
                     label: "text-foreground py-2",
@@ -175,7 +183,6 @@ export default function GoalsComponent() {
                   ]}
                   maxValue={100}
                   minValue={0}
-                  showTooltip={true}
                   step={10}
                 />
               </div>
@@ -226,9 +233,8 @@ export default function GoalsComponent() {
                   value={goalToEdit?.progress}
                   onChange={(value) => {
                     setGoalToEdit({ ...goalToEdit, progress: value as number });
-                    console.log("value", value);
                   }}
-                  formatOptions={{ style: "percent" }}
+                  formatOptions={{ style: "percent", maximumFractionDigits: 0 }}
                   label="Current Progress"
                   marks={[
                     {
@@ -246,7 +252,6 @@ export default function GoalsComponent() {
                   ]}
                   maxValue={100}
                   minValue={0}
-                  showTooltip={true}
                   step={10}
                 />
               </div>

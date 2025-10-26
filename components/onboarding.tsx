@@ -5,7 +5,7 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 import { OnboardingWelcome } from "./onboarding-welcome";
 import { OnboardingGoals } from "./onboarding-goals";
 import { OnboardingHabits } from "./onboarding-habits";
-import { OnboardingFrequency } from "./onboarding-frequency";
+// import { OnboardingFrequency } from "./onboarding-frequency";
 import { OnboardingComplete } from "./onboarding-complete";
 
 interface OnboardingProps {
