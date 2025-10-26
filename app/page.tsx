@@ -48,7 +48,7 @@ const HomePage = () => {
         <Prism animationType="rotate" timeScale={0.5} height={3.5} baseWidth={5.5} scale={3.6} hueShift={0} colorFrequency={1} noise={0.5} glow={1} />
       </div>
       <div className="w-full h-full p-8">
-        <WistiaPlayer mediaId="awq0rfvx2j" />;
+        <WistiaPlayer mediaId="kd9jlo7hzi" />;
       </div>
       <div className="flex flex-col min-h-screen text-foreground overflow-hidden">
         <section className="relative z-10 py-24 grow">

@@ -11,8 +11,11 @@ import { Progress } from "@/components/ui/progress";
 import { dummyHabits, dummyEntries, dummyAnalytics } from "@/lib/dummy-data";
 import { HabitEntry } from "@/lib/types";
 import { useState } from "react";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
 
 export function Analytics() {
+  const allHabits = useQuery(api.habits.getHabits, {});
   const [entries, setEntries] = useState<HabitEntry[]>(dummyEntries);
   const today = new Date().toISOString().split("T")[0];
 
@@ -128,13 +131,13 @@ export function Analytics() {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <Card>
           <CardContent className="p-2">
             <div className="flex items-center justify-between">
-              <div>
+              <div className=" flex flex-col gap-2">
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Today's Progress</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">
                   {completedToday}/{dummyHabits.length}
                 </p>
               </div>
@@ -147,9 +150,10 @@ export function Analytics() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <div>
+              <div className=" flex flex-col gap-2">
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Current Streak</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{dummyAnalytics.currentStreak} days</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{dummyAnalytics.currentStreak}</p>
+                <p className="text-xs text-muted-foreground mt-2">days</p>
               </div>
               <Flame className="h-8 w-8 text-orange-500" />
             </div>
@@ -159,9 +163,10 @@ export function Analytics() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Weekly Average</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{dummyAnalytics.weeklyAverage}%</p>
+              <div className=" flex flex-col gap-2">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Habits</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{allHabits?.length || 0}</p>
+                <p className="text-xs text-muted-foreground mt-2">active</p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-500" />
             </div>
@@ -171,9 +176,10 @@ export function Analytics() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <div>
+              <div className=" flex flex-col gap-2">
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Best Streak</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{dummyAnalytics.longestStreak} days</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+                <p className="text-xs text-muted-foreground mt-2">days</p>
               </div>
               <CheckCircle className="h-8 w-8 text-purple-500" />
             </div>
@@ -182,13 +188,13 @@ export function Analytics() {
       </div>
 
       {/* Key Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-card rounded-2xl p-6 border border-border">
           <div className="flex items-center gap-3 mb-4">
             <Flame className="w-6 h-6 text-accent" />
             <span className="text-sm text-muted-foreground">Longest Streak</span>
           </div>
-          <p className="text-4xl font-bold text-foreground">{analytics.longestStreak}</p>
+          <p className="text-4xl font-bold text-foreground">0</p>
           <p className="text-xs text-muted-foreground mt-2">days</p>
         </div>
 
@@ -203,7 +209,7 @@ export function Analytics() {
 
         <div className="bg-card rounded-2xl p-6 border border-border">
           <div className="flex items-center gap-3 mb-4">
-            <Target className="w-6 h-6 text-primary" />
+           
             <span className="text-sm text-muted-foreground">Total Habits</span>
           </div>
           <p className="text-4xl font-bold text-foreground">{analytics.totalHabits}</p>
@@ -218,79 +224,12 @@ export function Analytics() {
           <p className="text-4xl font-bold text-foreground">{analytics.bestHabit ? `${analytics.bestHabit.completionRate}%` : "N/A"}</p>
           <p className="text-xs text-muted-foreground mt-2">completion</p>
         </div>
-      </div>
-
-      {/* Weekly Stats and 30-Day Trend */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Weekly Stats */}
-        <div className="bg-card rounded-2xl p-8 border border-border">
-          <h3 className="font-semibold text-foreground mb-6 text-lg">Weekly Completion Rate</h3>
-          <div className="space-y-4">
-            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, i) => (
-              <div key={day} className="flex items-center gap-4">
-                <span className="text-sm font-medium text-muted-foreground w-12">{day}</span>
-                <div className="flex-1 bg-muted rounded-full h-3">
-                  <div
-                    className="bg-gradient-to-r from-primary to-secondary h-3 rounded-full transition-all duration-500"
-                    style={{ width: `${analytics.weeklyStats[i]}%` }}
-                  />
-                </div>
-                <span className="text-sm font-semibold text-foreground w-12 text-right">{analytics.weeklyStats[i]}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 30-Day Trend */}
-        <div className="bg-card rounded-2xl p-8 border border-border">
-          <h3 className="font-semibold text-foreground mb-6 text-lg">30-Day Trend</h3>
-          <div className="flex items-end gap-1 h-48">
-            {analytics.monthlyTrend.map((value, i) => (
-              <div
-                key={i}
-                className="flex-1 bg-gradient-to-t from-primary to-secondary rounded-t transition-all duration-500 hover:opacity-80 cursor-pointer"
-                style={{ height: `${Math.max(value, 5)}%` }}
-                title={`Day ${i + 1}: ${value}%`}
-              />
-            ))}
-          </div>
-          <p className="text-xs text-muted-foreground mt-4 text-center">Last 30 days completion trend</p>
-        </div>
-      </div>
-
-      {/* Habit Performance */}
-      {/* {analytics.habitPerformance.length > 0 && (
-        <div className="bg-card rounded-2xl p-8 border border-border mb-8">
-          <h3 className="font-semibold text-foreground mb-6 text-lg">Habit Performance</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {analytics.habitPerformance.map((habit) => (
-              <div key={habit.id} className="p-4 bg-muted rounded-lg">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-3xl">{habitIconOptions.find((icon) => icon.name === habit.icon)?.icon}</span>
-                  <div className="flex-1">
-                    <p className="font-semibold text-foreground">
-                      {habit.name.charAt(0).toUpperCase() + (habit.name.length > 27 ? habit.name.slice(1, 25) + "..." : habit.name)}
-                    </p>
-                    <p className="text-xs text-muted-foreground">{habit.completedDays} days</p>
-                  </div>
-                </div>
-                <div className="w-full bg-background rounded-full h-2">
-                  <div
-                    className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${habit.completionRate}%` }}
-                  />
-                </div>
-                <p className="text-sm font-bold text-primary mt-2">{habit.completionRate}%</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )} */}
+      </div> */}
 
       {/* Insights */}
       <div className="bg-card rounded-2xl p-8 border border-border">
         <h3 className="font-semibold text-foreground mb-6 text-lg flex items-center gap-2">
-          <Trophy className="w-6 h-6 text-accent" />
+          <Trophy className="w-6 h-6 text-yellow-500" />
           Insights & Recommendations
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

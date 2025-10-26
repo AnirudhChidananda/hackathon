@@ -62,4 +62,15 @@ export default defineSchema({
     .index("by_user_id", ["userId"])
     .index("by_date", ["date"])
     .index("by_user_id_and_date", ["userId", "date"]),
+
+  goals: defineTable({
+    userId: v.id("users"),
+    title: v.string(),
+    date: v.string(),
+    progress: v.number(),
+    description: v.optional(v.string()),
+    active: v.boolean(),
+  })
+    .index("by_user_id", ["userId"])
+    .index("by_date", ["date"]),
 });

@@ -8,6 +8,7 @@ import { Profile } from "@/components/profile";
 import { Sidebar } from "@/components/sidebar";
 import { Onboarding } from "@/components/onboarding";
 import AIWellnessCoachPage from "@/components/Ai";
+import DashNav from "@/components/DashNav";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState("dashboard");
@@ -65,7 +66,10 @@ export default function Home() {
       <Sidebar currentPage={currentPage} onPageChange={setCurrentPage} />
 
       {/* Main Content Area */}
-      <main className="flex-1 ml-64 overflow-y-auto">{renderPage()}</main>
+      <main className="ml-0 sm:ml-0 md:ml-0 lg:ml-64 flex-1  overflow-y-auto">
+        <DashNav currentPage={currentPage} onPageChange={handlePageChange} />
+        {renderPage()}
+      </main>
     </div>
   );
 }

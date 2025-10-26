@@ -49,8 +49,6 @@ export function MoodPicker({ start }: { start: Date }) {
 
   useEffect(() => {
     if (todayMoodLogs) {
-      console.log("todayMoodLogs", todayMoodLogs);
-
       setCurrentMood(todayMoodLogs.mood || null);
       setJournalEntry(todayMoodLogs.note || "");
     }
@@ -112,8 +110,8 @@ export function MoodPicker({ start }: { start: Date }) {
               <span className="text-3xl leading-none">{moodIcons.find((m) => m.id === currentMood)?.emoji}</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
-              You seem to be feeling <span className="text-primary">{currentMood}</span> today!. Let's reflect on your day to organise your thought
-              process.
+              You seem to be feeling <span className="text-primary dark:text-purple-200 font-bold">{currentMood}</span> today!. Let's reflect on your
+              day to organise your thought process.
             </p>
             <textarea
               className="w-full rounded-lg border border-border bg-muted px-3 py-2 mb-4 resize-none text-base focus:outline-none focus:ring-2 focus:ring-primary"

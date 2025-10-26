@@ -16,6 +16,7 @@ import { startOfToday, getDay } from "date-fns";
 import { useMutation } from "convex/react";
 import { ShineBorder } from "@/components/ui/shine-border";
 import { toast } from "sonner";
+import GoalsComponent from "./goals-list";
 
 export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: string) => void }) {
   const [allHabits, setAllHabits] = useState<any[]>([]);
@@ -180,8 +181,8 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
                       key={habit._id}
                       className={`cursor-pointer transition-all duration-200 hover:shadow-md relative ${
                         isCompleted
-                          ? "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800"
-                          : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                          ? "hover:bg-gray-50 dark:hover:bg-gray-800 bg-linear-to-r from-green-50 to-green-100 dark:from-green-800 dark:to-green-900/20"
+                          : "hover:bg-linear-to-r from-green-100 to-green-50 border-green-200 dark:from-green-900/20 dark:to-green-800 dark:bg-green-900/20 dark:border-green-800"
                       }`}
                       onClick={() => {
                         toggleHabitCheck(habit._id, !isCompleted);
@@ -231,6 +232,9 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
           </Card>
         )}
         {/* Top Section: Mood and Stats */}
+        <div className="mb-8">
+          <GoalsComponent />
+        </div>
 
         <Card className="bg-linear-to-r from-blue-200 dark:from-transparent via-purple-300 dark:via-purple-800 to-orange-500 text-white">
           <CardContent className="p-6">

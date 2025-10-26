@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-function AIWellnessCoachPage() {
+function AIHabitsPage() {
   const { user } = useUser();
   const router = useRouter();
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -105,7 +105,7 @@ function AIWellnessCoachPage() {
 
         const fullName = user?.firstName ? `${user.firstName} ${user.lastName || ""}`.trim() : "There";
 
-        await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+        await vapi.start(process.env.NEXT_PUBLIC_VAPI_API_HABITS_KEY!, {
           variableValues: {
             full_name: fullName,
             user_id: user?.id,
@@ -118,15 +118,15 @@ function AIWellnessCoachPage() {
     }
   };
   return (
-    <div className="flex flex-col min-h-screen text-foreground overflow-hidden  pb-6 pt-24">
+    <div>
       <div className="container mx-auto px-4 h-full max-w-5xl">
         {/* Title */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold font-mono">
-            <span>Wellness </span>
-            <span className="text-primary uppercase">Session</span>
+            <span>Habits & Goals </span>
+            <span className="text-primary uppercase">Coach</span>
           </h1>
-          <p className="text-muted-foreground mt-2">Have a voice conversation with our Wellness Assistant for a personalized session</p>
+          <p className="text-muted-foreground mt-2">Have a voice conversation with our Habits Coach for a personalized session</p>
         </div>
 
         {/* VIDEO CALL AREA */}
@@ -157,12 +157,12 @@ function AIWellnessCoachPage() {
 
                 <div className="relative w-full h-full rounded-full bg-card flex items-center justify-center border border-border overflow-hidden">
                   <div className="absolute inset-0 bg-linear-to-b from-primary/10 to-secondary/10"></div>
-                  <img src="/assistant.png" alt="AI Assistant" className="w-full h-full object-cover" />
+                  <img src="/h1.png" alt="AI Assistant" className="w-full h-full object-cover" />
                 </div>
               </div>
 
-              <h2 className="text-xl font-bold text-foreground">AI Assistant</h2>
-              <p className="text-sm text-muted-foreground mt-1">Wellness Coach</p>
+              <h2 className="text-xl font-bold text-foreground">Habits & Goals Coach</h2>
+              <p className="text-sm text-muted-foreground mt-1">Wellness Assistant</p>
 
               {/* SPEAKING INDICATOR */}
 
@@ -212,7 +212,7 @@ function AIWellnessCoachPage() {
             <div className="space-y-3">
               {messages.map((msg, index) => (
                 <div key={index} className="message-item animate-fadeIn">
-                  <div className="font-semibold text-xs text-muted-foreground mb-1">{msg.role === "assistant" ? "Wellness Assistant" : "You"}:</div>
+                  <div className="font-semibold text-xs text-muted-foreground mb-1">{msg.role === "assistant" ? "Habits & Goals Coach" : "You"}:</div>
                   <p className="text-foreground">{msg.content}</p>
                 </div>
               ))}
@@ -220,7 +220,7 @@ function AIWellnessCoachPage() {
               {callEnded && (
                 <div className="message-item animate-fadeIn">
                   <div className="font-semibold text-xs text-primary mb-1">System:</div>
-                  <p className="text-foreground">Your wellness session has been completed. Redirecting to your profile...</p>
+                  <p className="text-foreground">Your habits & goals session has been completed. Redirecting to your profile...</p>
                 </div>
               )}
             </div>
@@ -246,4 +246,4 @@ function AIWellnessCoachPage() {
   );
 }
 
-export default AIWellnessCoachPage;
+export default AIHabitsPage;

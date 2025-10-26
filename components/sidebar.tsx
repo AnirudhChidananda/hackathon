@@ -1,9 +1,10 @@
 "use client";
 
-import { Home, Calendar, BarChart3, User, Atom, LogOut } from "lucide-react";
+import { Home, ScanEye, BarChart3, User, Atom, LogOut, NotebookPen } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 interface SidebarProps {
   currentPage: string;
@@ -12,20 +13,22 @@ interface SidebarProps {
 
 export function Sidebar({ currentPage, onPageChange }: SidebarProps) {
   const { signOut } = useClerk();
+  const router = useRouter();
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: Home },
     { id: "manage", label: "Habits & Goals", icon: User },
-    { id: "calendar", label: "Streaks Calendar", icon: Calendar },
-    { id: "analytics", label: "Performance", icon: BarChart3 },
-    { id: "welness", label: "AI Wellness Coach", icon: Atom },
+    { id: "calendar", label: "The Phoenix Cycle", icon: ScanEye },
+    // { id: "journal", label: "Flame Journal", icon: NotebookPen },
+    { id: "welness", label: "AI Wellness Assistant", icon: Atom },
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-sidebar border-r border-sidebar-border flex flex-col">
+    <aside className="hidden sm:hidden md:hidden lg:flex fixed left-0 top-0 h-screen w-64 bg-sidebar border-r border-sidebar-border  flex-col ">
       {/* Logo/Header */}
 
       <div className=" border-b border-sidebar-border flex flex-row items-center justify-between">
-        <div className="p-4 w-full cursor-pointer" onClick={() => onPageChange("dashboard")}>
+        {/* <div className="p-4 w-full cursor-pointer" onClick={() => onPageChange("dashboard")}> */}
+        <div className="p-4 w-full cursor-pointer" onClick={() => router.push("/")}>
           <h1 className="text-2xl font-bold bg-linear-to-r from-yellow-500 via-orange-500  to-red-500 inline-block text-transparent bg-clip-text">
             Rise
           </h1>

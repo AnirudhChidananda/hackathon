@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as goals from "../goals.js";
 import type * as habit_logs from "../habit_logs.js";
 import type * as habits from "../habits.js";
 import type * as http from "../http.js";
@@ -29,6 +30,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  goals: typeof goals;
   habit_logs: typeof habit_logs;
   habits: typeof habits;
   http: typeof http;

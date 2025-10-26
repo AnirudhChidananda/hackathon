@@ -8,6 +8,7 @@ import { CalendarDay } from "./calendar-day";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { getWeekOfMonth, getDay } from "date-fns";
+import { Analytics } from "./analytics";
 
 // const getInsights = () => {
 //   const insights = [];
@@ -68,31 +69,32 @@ export function Calendar() {
   const isCurrentMonth = today.getFullYear() === currentMonth.getFullYear() && today.getMonth() === currentMonth.getMonth();
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground mb-2">Progress Calendar</h1>
-        <p className="text-lg text-muted-foreground">Track your consistency over time</p>
-      </div>
+    <div>
+      <div className="p-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-2">Progress Calendar</h1>
+          <p className="text-lg text-muted-foreground">Track your consistency over time</p>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Calendar */}
-        <div className="lg:col-span-2">
-          <div className="bg-card rounded-2xl p-8 border border-border">
-            {/* Month Navigation */}
-            <div className="flex items-center justify-between mb-8">
-              <button onClick={previousMonth} className="p-2 hover:bg-muted rounded-lg transition-colors" aria-label="Previous month">
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <h2 className="text-2xl font-semibold text-foreground">
-                {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
-              </h2>
-              <button onClick={nextMonth} className="p-2 hover:bg-muted rounded-lg transition-colors" aria-label="Next month">
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Calendar */}
+          <div className="lg:col-span-2">
+            <div className="bg-card rounded-2xl p-8 border border-border">
+              {/* Month Navigation */}
+              <div className="flex items-center justify-between mb-8">
+                <button onClick={previousMonth} className="p-2 hover:bg-muted rounded-lg transition-colors" aria-label="Previous month">
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <h2 className="text-2xl font-semibold text-foreground">
+                  {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                </h2>
+                <button onClick={nextMonth} className="p-2 hover:bg-muted rounded-lg transition-colors" aria-label="Next month">
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
 
-            {/* Month Completion Stats */}
-            {/* <div className="mb-8 pb-8 border-b border-border">
+              {/* Month Completion Stats */}
+              {/* <div className="mb-8 pb-8 border-b border-border">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-medium text-muted-foreground">Month Completion</span>
                 <span className="text-2xl font-bold text-primary">{monthCompletion}%</span>
@@ -105,72 +107,72 @@ export function Calendar() {
               </div>
             </div> */}
 
-            {/* Calendar Grid */}
-            <div className="grid grid-cols-7 gap-3">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                <div key={day} className="text-center text-sm font-semibold text-muted-foreground py-3">
-                  {day}
-                </div>
-              ))}
-              {Array.from({ length: firstDay }).map((_, i) => (
-                <div key={`empty-${i}`} />
-              ))}
-              {days.map((day) => {
-                const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-                const dateStr = date.toISOString();
-                const stats = monthStats[day];
-                const isToday = isCurrentMonth && day === today.getDate();
+              {/* Calendar Grid */}
+              <div className="grid grid-cols-7 gap-3">
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                  <div key={day} className="text-center text-sm font-semibold text-muted-foreground py-3">
+                    {day}
+                  </div>
+                ))}
+                {Array.from({ length: firstDay }).map((_, i) => (
+                  <div key={`empty-${i}`} />
+                ))}
+                {days.map((day) => {
+                  const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+                  const dateStr = date.toISOString();
+                  const stats = monthStats[day];
+                  const isToday = isCurrentMonth && day === today.getDate();
 
-                return (
-                  <CalendarDay
-                    key={day}
-                    day={day}
-                    stats={stats}
-                    isToday={isToday}
-                    dateStr={dateStr}
-                    allHabitLogs={allHabitLogs ?? []}
-                    allMoodLogs={allMoodLogs ?? []}
-                    allhabits={allhabits ?? []}
-                  />
-                );
-              })}
+                  return (
+                    <CalendarDay
+                      key={day}
+                      day={day}
+                      stats={stats}
+                      isToday={isToday}
+                      dateStr={dateStr}
+                      allHabitLogs={allHabitLogs ?? []}
+                      allMoodLogs={allMoodLogs ?? []}
+                      allhabits={allhabits ?? []}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Weekly Breakdown Sidebar */}
-        <div className="bg-card rounded-2xl p-8 border border-border h-fit">
-          <h3 className="font-semibold text-foreground mb-6 text-lg">Weekly Habit Breakdown</h3>
-          <div className="space-y-4">
-            {Array.from({ length: Math.ceil(daysInMonth / 7) }).map((_, weekIndex) => {
-              // const weekStart = weekIndex * 7 + 1;
-              // const weekEnd = Math.min(weekStart + 6, daysInMonth);
-              // const weekDays = Array.from({ length: weekEnd - weekStart + 1 }, (_, i) => weekStart + i);
-              // const weekCompletion = weekDays.reduce((sum, day) => {
-              //   const stats = monthStats[day];
-              //   return sum + (stats && stats.completed > 0 ? 1 : 0);
-              // }, 0);
+          {/* Weekly Breakdown Sidebar */}
+          <div className="bg-card rounded-2xl p-8 border border-border h-fit">
+            <h3 className="font-semibold text-foreground mb-6 text-lg">Weekly Habit Breakdown</h3>
+            <div className="space-y-4">
+              {Array.from({ length: Math.ceil(daysInMonth / 7) }).map((_, weekIndex) => {
+                // const weekStart = weekIndex * 7 + 1;
+                // const weekEnd = Math.min(weekStart + 6, daysInMonth);
+                // const weekDays = Array.from({ length: weekEnd - weekStart + 1 }, (_, i) => weekStart + i);
+                // const weekCompletion = weekDays.reduce((sum, day) => {
+                //   const stats = monthStats[day];
+                //   return sum + (stats && stats.completed > 0 ? 1 : 0);
+                // }, 0);
 
-              const filterLogs = allHabitLogs?.filter((log) => {
-                // console.log("getWeekOfMonth(new Date(log.date))", getWeekOfMonth(new Date(log.date)));
-                if (log?.habitList.find((habit) => habit.completed)) {
-                  return getWeekOfMonth(new Date(log.date)) === weekIndex + 1;
+                const filterLogs = allHabitLogs?.filter((log) => {
+                  // console.log("getWeekOfMonth(new Date(log.date))", getWeekOfMonth(new Date(log.date)));
+                  if (log?.habitList.find((habit) => habit.completed)) {
+                    return getWeekOfMonth(new Date(log.date)) === weekIndex + 1;
+                  }
+                });
+
+                let completionRate = 0;
+
+                if (filterLogs && filterLogs?.length > 0) {
+                  completionRate = Math.round((filterLogs?.length / 7) * 100);
                 }
-              });
 
-              let completionRate = 0;
-
-              if (filterLogs && filterLogs?.length > 0) {
-                completionRate = Math.round((filterLogs?.length / 7) * 100);
-              }
-
-              return (
-                <div key={`week-${weekIndex}`} className="p-4 bg-muted rounded-lg">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-medium text-foreground">Week {weekIndex + 1}</span>
-                    <span className="text-sm font-bold text-primary">{completionRate}%</span>
-                  </div>
-                  {/* <div className="flex gap-1">
+                return (
+                  <div key={`week-${weekIndex}`} className="p-4 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-medium text-foreground">Week {weekIndex + 1}</span>
+                      <span className="text-sm font-bold text-primary">{completionRate}%</span>
+                    </div>
+                    {/* <div className="flex gap-1">
                     {weekDays.map((day) => {
                       const stats = monthStats[day];
                       const hasCompletion = stats && stats.completed > 0;
@@ -186,12 +188,13 @@ export function Calendar() {
                       );
                     })}
                   </div> */}
-                </div>
-              );
-            })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-        {/* <div className="bg-card rounded-2xl p-8 border border-border">
+
+          {/* <div className="bg-card rounded-2xl p-8 border border-border">
         <h3 className="font-semibold text-foreground mb-6 text-lg flex items-center gap-2">
           <Trophy className="w-6 h-6 text-accent" />
           Insights & Recommendations
@@ -204,7 +207,9 @@ export function Calendar() {
           ))}
         </div>
       </div> */}
+        </div>
       </div>
+      <Analytics />
     </div>
   );
 }
