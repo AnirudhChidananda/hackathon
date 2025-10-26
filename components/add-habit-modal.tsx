@@ -20,7 +20,7 @@ export function AddHabitModal({ onClose }: AddHabitModalProps) {
   const createHabit = useMutation(api.habits.addHabit);
 
   const handleAdd = async () => {
-    if (habitName.trim()) {
+    if (habitName) {
       await createHabit({ name: habitName, icon: selectedIcon, createdDate: new Date().toISOString(), description: habitDescription })
         .then(() => {
           setHabitName("");

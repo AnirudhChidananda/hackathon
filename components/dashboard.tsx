@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Circle, Plus, Settings2 } from "lucide-react";
 import { habitIconOptions } from "@/lib/dummy-data";
 import { RadialChart } from "@/components/radial-chart";
-import { ChartRadarDots } from "@/components/radar-chart";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { MoodPicker } from "./mood-picker";
 import { useUser } from "@clerk/nextjs";
@@ -43,7 +42,10 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
       const newEntries: any[] = [];
 
       if (todayLogs && todayEntries?.length > 0) {
+        const idList: string[] = [];
+
         todayEntries.forEach((log: any) => {
+          idList.push(log.habitId);
           if (log.habitId === habitId) {
             newEntries.push({
               habitId: log.habitId,
@@ -57,6 +59,26 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
               habitName: log.habitName,
               icon: log.icon,
               completed: log.completed,
+            });
+          }
+        });
+
+        const filterList = allHabits.filter((habit) => !idList.includes(habit._id));
+
+        filterList.forEach((habit) => {
+          if (habit._id === habitId) {
+            newEntries.push({
+              habitId: habit._id,
+              habitName: habit.name,
+              icon: habit.icon,
+              completed: completed,
+            });
+          } else {
+            newEntries.push({
+              habitId: habit._id,
+              habitName: habit.name,
+              icon: habit.icon,
+              completed: false,
             });
           }
         });
@@ -91,6 +113,7 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
             });
           }
         });
+
         createHabitLog({
           habitList: newEntries,
           date: start.toISOString(),
@@ -130,9 +153,6 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
             <div className="w-[250px] rounded-2xl">
               <RadialChart todayEntries={todayEntries} allHabits={allHabits} />
             </div>
-            {/* <div className="w-[300px] rounded-2xl">
-              <ChartRadarDots />
-            </div> */}
           </div>
 
           <div className="relative rounded-2xl">
@@ -162,24 +182,23 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
           </div>
         </div>
         {showAddHabitModal && <AddHabitModal onClose={setShowAddHabitModal} />}
-        {/* Today's Habits */}
         {allHabits && allHabits?.length > 0 ? (
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <div className="flex flex-row  w-full items-center gap-2">
+                <div className="flex flex-row justify-between w-full items-center gap-2">
                   <div>
                     <span>Today's Habits</span>
                     <Badge variant="secondary">{completionRate}% Complete</Badge>
                     <div className="flex flex-col gap-4 items-center justify-center"></div>
                   </div>
-                  {/* <button
+                  <button
                     onClick={() => setShowAddHabitModal(true)}
                     className="bg-secondary text-secondary-foreground px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity cursor-pointer"
                   >
                     <Plus className="w-5 h-5" />
                     ADD NEW HABITS
-                  </button> */}
+                  </button>
                 </div>
               </CardTitle>
               <CardDescription>Check off your habits as you complete them throughout the day</CardDescription>
@@ -196,7 +215,7 @@ export default function Dashboard({ setCurrentPage }: { setCurrentPage: (page: s
                       className={`cursor-pointer transition-all duration-200 hover:shadow-md relative ${
                         isCompleted
                           ? "hover:bg-gray-50 dark:hover:bg-gray-800 bg-linear-to-r from-green-50 to-green-100 dark:from-green-800 dark:to-green-900/20"
-                          : "hover:bg-linear-to-r from-green-100 to-green-50 border-green-200 dark:from-green-900/20 dark:to-green-800 dark:bg-green-900/20 dark:border-green-800"
+                          : "hover:bg-linear-to-r from-green-100 to-green-50 border-green-200 dark:from-green-900/20 dark:to-green-800 dark:bg-blue-950/10 dark:border-green-800"
                       }`}
                       onClick={() => {
                         toggleHabitCheck(habit._id, !isCompleted);

@@ -2,8 +2,6 @@ import TerminalOverlay from "@/components/TerminalOverlay";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { TextHoverEffect } from "@/components/ui/hover";
-
-// import UserPrograms from "@/components/UserPrograms";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import Prism from "@/components/ui/prism";
@@ -82,18 +80,18 @@ const HomePage = () => {
                 {/* STATS */}
                 <div className="flex items-center gap-10 py-6 font-mono">
                   <div className="flex flex-col">
-                    <div className="text-2xl text-primary">500+</div>
-                    <div className="text-xs uppercase tracking-wider">ACTIVE USERS</div>
+                    <div className="text-2xl text-primary">Habits & Goals</div>
+                    <div className="text-xs uppercase tracking-wider">ASSISTANT</div>
                   </div>
                   <div className="h-12 w-px bg-linear-to-b from-transparent via-border to-transparent"></div>
-                  {/* <div className="flex flex-col">
-                    <div className="text-2xl text-primary">3min</div>
-                    <div className="text-xs uppercase tracking-wider">GENERATION</div>
-                  </div> */}
+                  <div className="flex flex-col">
+                    <div className="text-2xl text-primary">Meditation</div>
+                    <div className="text-xs uppercase tracking-wider">ASSISTANT</div>
+                  </div>
                   <div className="h-12 w-px bg-linear-to-b from-transparent via-border to-transparent"></div>
                   <div className="flex flex-col">
-                    <div className="text-2xl text-primary">100%</div>
-                    <div className="text-xs uppercase tracking-wider">PERSONALIZED</div>
+                    <div className="text-2xl text-primary">Motivation</div>
+                    <div className="text-xs uppercase tracking-wider">ASSISTANT</div>
                   </div>
                 </div>
 
